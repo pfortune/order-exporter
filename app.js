@@ -1,4 +1,5 @@
 const Prestashop = require("./utils/prestashop");
+const ftp = require("./utils/ftp");
 
 require("dotenv").config();
 
@@ -34,3 +35,9 @@ presta.getOrderDetails("13398", (error, order) => {
 
   console.log(order);
 });
+
+/**
+ * Test connecting to FTP server
+ */
+ftp.list();
+ftp.connect();

@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.1.0",
+    "ftp": "^0.3.10",
     "request": "^2.88.0"
   }
 }
