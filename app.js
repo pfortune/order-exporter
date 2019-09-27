@@ -1,14 +1,17 @@
 const Prestashop = require("./utils/prestashop");
 
-const presta = new Prestashop(URL, APIKEY);
+require("dotenv").config();
+
+const presta = new Prestashop(process.env.URL, process.env.APIKEY);
 
 /**
  * Retrieve the orders that are marked as payment accepted
  */
-presta.getOrders("payment_accepted", (error, orders) => {
+presta.getOrders("payment_accepted", (error, result) => {
   if (error) {
     return console.log("Error", error);
   }
+  const orders = result.orders;
 
   for (let order in orders) {
     presta.getOrderById(orders[order].id, (error, order) => {
@@ -22,12 +25,12 @@ presta.getOrders("payment_accepted", (error, orders) => {
 });
 
 /**
- *
+ * Retrieve details of an order from custom endpoint
  */
 presta.getOrderDetails("13398", (error, order) => {
   if (error) {
     return console.log("Error", error);
   }
 
-  console.log(order.data.itemslist);
+  console.log(order);
 });

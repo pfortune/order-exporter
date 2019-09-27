@@ -118,6 +118,7 @@ class PrestaShop {
       format: "JSON"
     });
 
+    console.log(url);
     this.req(url, cb);
   }
 
@@ -142,6 +143,8 @@ class PrestaShop {
     if (options) {
       url += `&filter[current_state]=[${options}]`;
     }
+
+    console.log(url);
 
     return url;
   }
