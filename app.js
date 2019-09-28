@@ -15,29 +15,42 @@ presta.getOrders("payment_accepted", (error, result) => {
   const orders = result.orders;
 
   for (let order in orders) {
-    presta.getOrderById(orders[order].id, (error, order) => {
+    presta.getOrderDetails(orders[order].id, (error, result) => {
       if (error) {
         return console.log("Error", error);
       }
 
-      console.log(order);
+      const {
+        company,
+        firstname,
+        lastname,
+        id: orderId,
+        date_add: date,
+        id_customer: customerId,
+        address1,
+        address2,
+        city,
+        state,
+        postcode,
+        country,
+        email,
+        phone,
+        itemslist: products
+      } = result.data;
+
+      console.log(
+        `
+         ${firstname} ${lastname} | ${orderId} | ${date} | ${customerId} | 
+         ${address1} | ${address2} | ${city} | ${state} | ${postcode} | ${country} | ${email} | ${phone} | ${products}
+         --------
+         `
+      );
     });
   }
 });
 
 /**
- * Retrieve details of an order from custom endpoint
- */
-presta.getOrderDetails("13398", (error, order) => {
-  if (error) {
-    return console.log("Error", error);
-  }
-
-  console.log(order);
-});
-
-/**
  * Test connecting to FTP server
  */
-ftp.list();
-ftp.connect();
+//ftp.list();
+//ftp.connect();

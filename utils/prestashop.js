@@ -114,21 +114,20 @@ class PrestaShop {
   getOrderDetails(id, cb) {
     const url = this.buildUrl({
       type: "orderslist",
-      id: id,
-      format: "JSON"
+      id,
+      method: "getOrder"
     });
 
-    console.log(url);
     this.req(url, cb);
   }
 
   /**
    * Builds up the API request url to be used by the other methods.
    */
-  buildUrl({ type, id, options, format }) {
+  buildUrl({ type, id, options, format, method }) {
     let url = `${this.base_url}/${type}/`;
 
-    if (id) {
+    if (id && !method) {
       url += `${id}/`;
     }
 
@@ -144,7 +143,9 @@ class PrestaShop {
       url += `&filter[current_state]=[${options}]`;
     }
 
-    console.log(url);
+    if (method) {
+      url += `&method=${method}&orderId=${id}`;
+    }
 
     return url;
   }
@@ -155,7 +156,7 @@ class PrestaShop {
    * @param {*} cb
    */
   req(url, cb) {
-    request({ url: url, json: true }, (error, response) => {
+    request.get({ url: url, json: true }, (error, response) => {
       if (error) {
         cb("Unable to connect to the PrestaShop Webservice API.");
       } else {
