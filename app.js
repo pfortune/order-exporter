@@ -6,6 +6,9 @@ require("dotenv").config();
 
 const presta = new Prestashop(process.env.URL, process.env.APIKEY);
 
+// Create a unique file name
+const file = `./data/orders${Date.now()}.csv`;
+
 /**
  * Retrieve the orders that are marked as payment accepted
  */
@@ -14,8 +17,8 @@ presta.getOrders("payment_accepted", (error, result) => {
     return console.log("Error", error);
   }
 
-  // Overwrites CSV each time and adds the headers
-  addCSVHeader();
+  // Create CSV and add headers
+  addCSVHeader(file);
 
   const orders = result.orders;
 
@@ -54,25 +57,20 @@ const buildCSV = data => {
     order += data.phone;
 
     order += "\n";
-    appendToCSV(order);
+    writeToCSV(order, file);
   }
 };
 
-// Adds the required headers to the top of the file
-const addCSVHeader = () => {
+// Add required headers to the top CSV file
+const addCSVHeader = file => {
   const header =
     "Company,Firstname,Lastname,Order,Date,Quantity,Customer,Address1,Address2,Address3,City,State,Postcode,Other,Country,Email,Sku,Phone\n";
-  writeToCSV(header);
+  writeToCSV(header, file);
 };
 
-// Writes to the file, and overwrites existing data
-const writeToCSV = data => {
-  fs.writeFileSync("./data/test.csv", data);
-};
-
-// Appends a line to the file, without overwriting
-const appendToCSV = data => {
-  fs.appendFileSync("./data/test.csv", data);
+// Appends a line to the file, creates file if it doesn't exist
+const writeToCSV = (data, file) => {
+  fs.appendFileSync(file, data);
 };
 
 /**
