@@ -107,13 +107,13 @@ class PrestaShop {
   }
 
   /**
-   * Get Order Details
+   * Get full details for order id from custom endpoint
    * @param {*} id
    * @param {*} cb
    */
   getOrderDetails(id, cb) {
     const url = this.buildUrl({
-      type: "orderslist",
+      type: "orderdetailed",
       id,
       method: "getOrder"
     });
@@ -147,6 +147,7 @@ class PrestaShop {
       url += `&method=${method}&orderId=${id}`;
     }
 
+    console.log(url);
     return url;
   }
 

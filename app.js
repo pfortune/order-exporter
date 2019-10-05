@@ -32,7 +32,7 @@ presta.getOrders("payment_accepted", (error, result) => {
         city,
         state,
         postcode,
-        country,
+        countryIso,
         email,
         phone,
         itemslist: products
@@ -41,7 +41,7 @@ presta.getOrders("payment_accepted", (error, result) => {
       console.log(
         `
          ${firstname} ${lastname} | ${orderId} | ${date} | ${customerId} | 
-         ${address1} | ${address2} | ${city} | ${state} | ${postcode} | ${country} | ${email} | ${phone} | ${products}
+         ${address1} | ${address2} | ${city} | ${state} | ${postcode} | ${countryIso} | ${email} | ${phone} | ${products}
          --------
          `
       );
