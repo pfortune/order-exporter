@@ -1,8 +1,8 @@
-const Prestashop = require("./utils/prestashop");
-const fs = require("fs");
-const ftp = require("./utils/ftp");
+const Prestashop = require('./utils/prestashop');
+const fs = require('fs');
+const ftp = require('./utils/ftp');
 
-require("dotenv").config();
+require('dotenv').config();
 
 const presta = new Prestashop(process.env.URL, process.env.APIKEY);
 
@@ -10,22 +10,23 @@ const presta = new Prestashop(process.env.URL, process.env.APIKEY);
 const file = `./data/orders${Date.now()}.csv`;
 
 /**
- * Retrieve the orders that are marked as payment accepted
+ * Retrieve the ID of orders that are marked as payment accepted
  */
-presta.getOrders("payment_accepted", (error, result) => {
+presta.getOrders('payment_accepted', (error, result) => {
   if (error) {
-    return console.log("Error", error);
+    return console.log('Error', error);
   }
 
-  // Create CSV and add headers
-  addCSVHeader(file);
+  // Create Header and then write to CSV file
+  writeToCSV(file, CSVHeader());
 
   const orders = result.orders;
 
   for (let order in orders) {
+    // Retrieve the order details using the order ID
     presta.getOrderDetails(orders[order].id, (error, result) => {
       if (error) {
-        return console.log("Error", error);
+        return console.log('Error', error);
       }
 
       buildCSV(result.data);
@@ -33,43 +34,42 @@ presta.getOrders("payment_accepted", (error, result) => {
   }
 });
 
+// Creates each line of the CSV file from the order data
 const buildCSV = data => {
-  let order = "";
+  let order = '';
 
   for (let i = 0; i < data.itemslist.length; i++) {
-    order += data.company + ", ";
-    order += data.firstname + ", ";
-    order += data.lastname + ", ";
-    order += data.id + ", ";
-    order += data.date_add + ", ";
-    order += data.itemslist[i].product_quantity + ", ";
-    order += data.id_customer + ", ";
-    order += data.address1 + ", ";
-    order += data.address2 + ", ";
-    order += " , ";
-    order += data.city + ", ";
-    order += data.state + ", ";
-    order += data.postcode + ", ";
-    order += " , ";
-    order += data.countryIso + ", ";
-    order += data.email + ", ";
-    order += data.itemslist[i].product_reference + ", ";
+    order += data.company + ', ';
+    order += data.firstname + ', ';
+    order += data.lastname + ', ';
+    order += data.id + ', ';
+    order += data.date_add + ', ';
+    order += data.itemslist[i].product_quantity + ', ';
+    order += data.id_customer + ', ';
+    order += data.address1 + ', ';
+    order += data.address2 + ', ';
+    order += ' , ';
+    order += data.city + ', ';
+    order += data.state + ', ';
+    order += data.postcode + ', ';
+    order += ' , ';
+    order += data.countryIso + ', ';
+    order += data.email + ', ';
+    order += data.itemslist[i].product_reference + ', ';
     order += data.phone;
 
-    order += "\n";
-    writeToCSV(order, file);
+    order += '\n';
+    writeToCSV(file, order);
   }
 };
 
-// Add required headers to the top CSV file
-const addCSVHeader = file => {
-  const header =
-    "Company,Firstname,Lastname,Order,Date,Quantity,Customer,Address1,Address2,Address3,City,State,Postcode,Other,Country,Email,Sku,Phone\n";
-  writeToCSV(header, file);
+// Required CSV headers
+const CSVHeader = () => {
+  return 'Company,Firstname,Lastname,Order,Date,Quantity,Customer,Address1,Address2,Address3,City,State,Postcode,Other,Country,Email,Sku,Phone\n';
 };
 
-// Appends a line to the file, creates file if it doesn't exist
-const writeToCSV = (data, file) => {
+// Adds a line to a file, creates file if it doesn't exist
+const writeToCSV = (file, data) => {
   fs.appendFileSync(file, data);
 };
 
