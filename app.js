@@ -32,6 +32,9 @@ presta.getOrders('payment_accepted', (error, result) => {
       buildCSV(result.data);
     });
   }
+
+  // Upload orders to FTP server
+  uploadOrders(file);
 });
 
 // Creates each line of the CSV file from the order data
@@ -73,8 +76,9 @@ const writeToCSV = (file, data) => {
   fs.appendFileSync(file, data);
 };
 
-/**
- * Test connecting to FTP server
- */
-//ftp.list();
-//ftp.connect();
+const uploadOrders = file => {
+  const remote = `/towms/orders${Date.now()}.csv`;
+
+  ftp.upload(file, remote);
+  ftp.connect();
+};
