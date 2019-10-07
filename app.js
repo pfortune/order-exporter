@@ -42,24 +42,25 @@ const buildCSV = data => {
   let order = '';
 
   for (let i = 0; i < data.itemslist.length; i++) {
-    order += data.company + ', ';
-    order += data.firstname + ', ';
-    order += data.lastname + ', ';
-    order += data.id + ', ';
-    order += data.date_add + ', ';
-    order += data.itemslist[i].product_quantity + ', ';
-    order += data.id_customer + ', ';
-    order += data.address1 + ', ';
-    order += data.address2 + ', ';
+    order += `"${data.company}", `;
+    order += `"${data.firstname}", `;
+    order += `"${data.lastname}", `;
+    order += `"${data.id}", `;
+    order += `"${data.date_add}", 1`;
+    order += `"${data.itemslist[i].product_quantity}", `;
+    order += `"${data.id_customer}", `;
+    order += `"${data.address1}", `;
+    order += `"${data.address2}", `;
     order += ' , ';
-    order += data.city + ', ';
-    order += data.state + ', ';
-    order += data.postcode + ', ';
+    order += `"${data.city}", `;
+    order += `"${data.state}", `;
+    order += `"${data.postcode}", `;
     order += ' , ';
-    order += data.countryIso + ', ';
-    order += data.email + ', ';
-    order += data.itemslist[i].product_reference + ', ';
-    order += data.phone;
+    order += `"${data.countryIso}", `;
+
+    order += `"${data.email}", `;
+    order += `"${data.itemslist[i].product_reference}", `;
+    order += `"${data.phone.replace(/\D+/g, '')}"`;
 
     order += '\n';
     writeToCSV(file, order);
@@ -68,7 +69,7 @@ const buildCSV = data => {
 
 // Required CSV headers
 const CSVHeader = () => {
-  return 'Company,Firstname,Lastname,Order,Date,Quantity,Customer,Address1,Address2,Address3,City,State,Postcode,Other,Country,Email,Sku,Phone\n';
+  return 'Company Name,First Name,Last Name,Order Number,Date of Order,Quantity,Account Number,Address Line 1,Address Line 2,Address Line 3,Town,County,Post Code,State,Country,Email Address,SKU,Phone number\n';
 };
 
 // Adds a line to a file, creates file if it doesn't exist
