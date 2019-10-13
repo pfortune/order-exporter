@@ -18,7 +18,7 @@ presta.getOrders("payment_accepted", (error, result) => {
   }
 
   // Create Header and then write to CSV file
-  writeToCSV(file, CSVHeader());
+  writeToCSV(file, CSVHEADER;
 
   const orders = result.orders;
 
@@ -72,9 +72,8 @@ function formatPhoneNumber(number) {
 }
 
 // Required CSV headers
-const CSVHeader = () => {
-  return "Company Name,First Name,Last Name,Order Number,Date of Order,Quantity,Account Number,Address Line 1,Address Line 2,Address Line 3,Town,County,Post Code,State,Country,Email Address,SKU,Phone number\n";
-};
+const CSVHEADER =
+  "Company Name,First Name,Last Name,Order Number,Date of Order,Quantity,Account Number,Address Line 1,Address Line 2,Address Line 3,Town,County,Post Code,State,Country,Email Address,SKU,Phone number\n";
 
 // Adds a line to a file, creates file if it doesn't exist
 const writeToCSV = (file, data) => {
