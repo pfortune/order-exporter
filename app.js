@@ -18,7 +18,7 @@ presta.getOrders("payment_accepted", (error, result) => {
   }
 
   // Create Header and then write to CSV file
-  writeToCSV(file, CSVHEADER;
+  writeToCSV(file, CSVHEADER);
 
   const orders = result.orders;
 
