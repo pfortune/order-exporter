@@ -1,4 +1,4 @@
-const request = require('request');
+const request = require("request");
 
 /**
  *
@@ -18,14 +18,14 @@ class PrestaShop {
    * @param {function} callback
    */
   getOrders(options, cb) {
-    if (options === 'payment_accepted') {
+    if (options === "payment_accepted") {
       options = 2;
     }
 
     const url = this.buildUrl({
-      type: 'orders',
+      type: "orders",
       options: options,
-      format: 'JSON'
+      format: "JSON"
     });
 
     this.req(url, cb);
@@ -38,9 +38,9 @@ class PrestaShop {
    */
   getOrderById(id, cb) {
     const url = this.buildUrl({
-      type: 'orders',
+      type: "orders",
       id: id,
-      format: 'JSON'
+      format: "JSON"
     });
 
     this.req(url, cb);
@@ -53,9 +53,9 @@ class PrestaShop {
    */
   getState(id, cb) {
     const url = this.buildUrl({
-      type: 'state',
+      type: "state",
       id: id,
-      format: 'JSON'
+      format: "JSON"
     });
 
     this.req(url, cb);
@@ -68,9 +68,9 @@ class PrestaShop {
    */
   getCountry(id, callback) {
     const url = this.buildUrl({
-      type: 'country',
+      type: "country",
       id: id,
-      format: 'JSON'
+      format: "JSON"
     });
 
     this.req(url, cb);
@@ -83,9 +83,9 @@ class PrestaShop {
    */
   getCustomerEmail(id, cb) {
     const url = this.buildUrl({
-      type: 'customer',
+      type: "customer",
       id: id,
-      format: 'JSON'
+      format: "JSON"
     });
 
     this.req(url, cb);
@@ -98,9 +98,9 @@ class PrestaShop {
    */
   getAddress(id, cb) {
     const url = this.buildUrl({
-      type: 'address',
+      type: "address",
       id: id,
-      format: 'JSON'
+      format: "JSON"
     });
 
     this.req(url, cb);
@@ -113,9 +113,9 @@ class PrestaShop {
    */
   getOrderDetails(id, cb) {
     const url = this.buildUrl({
-      type: 'orderdetailed',
+      type: "orderdetailed",
       id,
-      method: 'getOrder'
+      method: "getOrder"
     });
 
     this.req(url, cb);
@@ -144,7 +144,7 @@ class PrestaShop {
     }
 
     if (method) {
-      url += `&method=${method}&orderid=${id}}`;
+      url += `&method=${method}&orderid=${id}`;
     }
 
     console.log(url);
@@ -159,7 +159,7 @@ class PrestaShop {
   req(url, cb) {
     request.get({ url: url, json: true }, (error, response) => {
       if (error) {
-        cb('Unable to connect to the PrestaShop Webservice API.');
+        cb("Unable to connect to the PrestaShop Webservice API.");
       } else {
         cb(undefined, response.body);
       }
