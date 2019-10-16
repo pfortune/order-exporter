@@ -69,13 +69,7 @@ const buildCSV = data => {
     order += `"${data.email}", `;
     order += `"${data.itemslist[i].product_reference}", `;
     order += `"${formatPhoneNumber(data.phone)}", `;
-
-    // check if there are any order messages, if there are none use an empty string
-    if (data.message === null) {
-      order += `""`;
-    } else {
-      order += `"${data.message}"`;
-    }
+    order += `"${formatMessage(data.message)}"`;
     order += "\n";
 
     // write the order to a CSV file locally
@@ -86,6 +80,14 @@ const buildCSV = data => {
 // remove any character that's not a digit, including spaces
 function formatPhoneNumber(number) {
   return number.replace(/\D+/g, "");
+}
+
+function formatMessage(message) {
+  if (message !== null) {
+    return message.substring(0, 300);
+  }
+
+  return "";
 }
 
 // Required CSV headers
