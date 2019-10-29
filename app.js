@@ -9,6 +9,7 @@ const presta = new Prestashop(process.env.URL, process.env.APIKEY);
 // Create a unique file name
 const file = `orders${Date.now()}.csv`;
 const local = `./data/${file}`;
+const remote = `/towms/${file}`;
 
 /**
  * Retrieve the ID of orders that are marked as payment accepted
@@ -99,8 +100,6 @@ const writeToCSV = (file, data) => {
 };
 
 const uploadOrders = local => {
-  console.log('file:' + file);
-  const remote = `/towms/${file}`;
   ftp.upload(local, remote);
-  // ftp.connect();
+  ftp.connect();
 };
